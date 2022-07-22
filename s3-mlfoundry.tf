@@ -1,10 +1,12 @@
 resource "aws_s3_bucket" "mlfoundry_bucket" {
-  bucket_prefix = local.mlfoundry_unique_name
+  bucket = var.mlfoundry_s3_enable_override ? var.mlfoundry_s3_override_name : null
+  bucket_prefix = var.mlfoundry_s3_enable_override ? null : local.mlfoundry_unique_name
+
   force_destroy = var.mlfoundry_s3_force_destroy
 
   tags = merge(
     {
-      Name = local.mlfoundry_unique_name
+      Name = var.mlfoundry_s3_enable_override ? var.mlfoundry_s3_override_name : local.mlfoundry_unique_name
     },
     local.tags
   )

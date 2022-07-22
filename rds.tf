@@ -29,17 +29,40 @@ resource "aws_security_group" "rds" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+resource "aws_security_group" "rds-public" {
+  count = var.truefoundry_db_publicly_accessible ? 1 : 0
+  name   = "${local.truefoundry_db_unique_name}-rds-public"
+  vpc_id = var.vpc_id
+  tags   = local.tags
+
+  ingress {
+    from_port       = local.truefoundry_db_port
+    to_port         = local.truefoundry_db_port
+    protocol        = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
 
 resource "aws_db_instance" "truefoundry_db" {
-  tags                            = local.tags
-  engine                          = "postgres"
-  engine_version                  = "13.4"
-  allocated_storage               = var.truefoundry_db_allocated_storage
-  port                            = local.truefoundry_db_port
-  db_subnet_group_name            = aws_db_subnet_group.rds.name
-  vpc_security_group_ids          = [aws_security_group.rds.id]
-  username                        = local.truefoundry_db_master_username
-  identifier_prefix               = local.truefoundry_db_unique_name
+  tags                   = local.tags
+  engine                 = "postgres"
+  engine_version         = "13.4"
+  allocated_storage      = var.truefoundry_db_allocated_storage
+  port                   = local.truefoundry_db_port
+  db_subnet_group_name   = aws_db_subnet_group.rds.name
+  vpc_security_group_ids = concat([aws_security_group.rds.id], aws_security_group.rds-public.*.id)
+  username               = local.truefoundry_db_master_username
+
+  identifier        = var.truefoundry_db_enable_override ? var.truefoundry_db_override_name : null
+  identifier_prefix = var.truefoundry_db_enable_override ? null : local.truefoundry_db_unique_name
+
   db_name                         = local.truefoundry_db_database_name
   skip_final_snapshot             = var.truefoundry_db_skip_final_snapshot
   password                        = random_password.truefoundry_db_password.result

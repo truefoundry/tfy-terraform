@@ -92,17 +92,29 @@ variable "truefoundry_db_storage_encrypted" {
   default = true
 }
 
+variable "truefoundry_db_enable_override" {
+  description = "Enable override for truefoundry db name. You must pass truefoundry_db_override_name"
+  type        = bool
+  default     = false
+}
+variable "truefoundry_db_override_name" {
+  description = "Override name for truefoundry db. truefoundry_db_enable_override must be set true"
+  type        = string
+  default     = ""
+}
+
 ##### MLFoundry
 
-#variable "mlfoundry_k8s_service_account" {
-#  description = "The k8s mlfoundry service account name"
-#  type        = string
-#}
-#
-#variable "mlfoundry_k8s_namespace" {
-#  description = "The k8s mlfoundry namespace"
-#  type        = string
-#}
+variable "mlfoundry_s3_enable_override" {
+  description = "Enable override for s3 bucket name. You must pass mlfoundry_s3_override_name"
+  type        = bool
+  default     = false
+}
+variable "mlfoundry_s3_override_name" {
+  description = "Override name for s3 bucket. mlfoundry_s3_enable_override must be set true"
+  type        = string
+  default     = ""
+}
 
 variable "mlfoundry_artifact_buckets_will_read" {
   description = "A list of bucket IDs mlfoundry will need read access to, in order to show the stored artifacts. It accepts any valid IAM resource, including ARNs with wildcards, so you can do something like arn:aws:s3:::bucket-prefix-*"
@@ -132,40 +144,18 @@ variable "mlfoundry_s3_cors_origins" {
   type        = list(string)
   default     = ["*"]
 }
-
-###### mlmonitoring
-#
-#variable "mlmonitoring_name" {
-#  description = "Name of mlmonitoring deployment"
-#  type        = string
-#}
-#
-#variable "mlmonitoring_k8s_service_account" {
-#  description = "The k8s mlmonitoring service account name"
-#  type        = string
-#}
-#
-#variable "mlmonitoring_k8s_namespace" {
-#  description = "The k8s mlmonitoring namespace"
-#  type        = string
-#}
-#
 ###### svcfoundry
-#
-#variable "svcfoundry_name" {
-#  description = "Name of svcfoundry deployment"
-#  type        = string
-#}
-#
-#variable "svcfoundry_k8s_service_account" {
-#  description = "The k8s svcfoundry service account name"
-#  type        = string
-#}
-#
-#variable "svcfoundry_k8s_namespace" {
-#  description = "The k8s svcfoundry namespace"
-#  type        = string
-#}
+
+variable "svcfoundry_s3_enable_override" {
+  description = "Enable override for s3 bucket name. You must pass svcfoundry_s3_override_name"
+  type        = bool
+  default     = false
+}
+variable "svcfoundry_s3_override_name" {
+  description = "Override name for s3 bucket. svcfoundry_s3_enable_override must be set true"
+  type        = string
+  default     = ""
+}
 
 variable "svcfoundry_artifact_buckets_will_read" {
   description = "A list of bucket IDs svcfoundry will need read access to, in order to show the stored artifacts. It accepts any valid IAM resource, including ARNs with wildcards, so you can do something like arn:aws:s3:::bucket-prefix-*"
