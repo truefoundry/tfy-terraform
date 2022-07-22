@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "svcfoundry_bucket" {
-  bucket = var.svcfoundry_s3_enable_override ? var.svcfoundry_s3_override_name : null
+  bucket        = var.svcfoundry_s3_enable_override ? var.svcfoundry_s3_override_name : null
   bucket_prefix = var.svcfoundry_s3_enable_override ? null : local.svcfoundry_unique_name
-  
+
   force_destroy = var.svcfoundry_s3_force_destroy
 
   tags = merge(

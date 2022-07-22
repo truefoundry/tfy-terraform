@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "mlfoundry_bucket" {
-  bucket = var.mlfoundry_s3_enable_override ? var.mlfoundry_s3_override_name : null
+  bucket        = var.mlfoundry_s3_enable_override ? var.mlfoundry_s3_override_name : null
   bucket_prefix = var.mlfoundry_s3_enable_override ? null : local.mlfoundry_unique_name
 
   force_destroy = var.mlfoundry_s3_force_destroy

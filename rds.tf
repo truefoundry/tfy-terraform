@@ -30,15 +30,15 @@ resource "aws_security_group" "rds" {
   }
 }
 resource "aws_security_group" "rds-public" {
-  count = var.truefoundry_db_publicly_accessible ? 1 : 0
+  count  = var.truefoundry_db_publicly_accessible ? 1 : 0
   name   = "${local.truefoundry_db_unique_name}-rds-public"
   vpc_id = var.vpc_id
   tags   = local.tags
 
   ingress {
-    from_port       = local.truefoundry_db_port
-    to_port         = local.truefoundry_db_port
-    protocol        = "tcp"
+    from_port   = local.truefoundry_db_port
+    to_port     = local.truefoundry_db_port
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 

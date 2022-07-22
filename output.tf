@@ -27,7 +27,7 @@ output "truefoundry_db_username" {
 }
 
 output "truefoundry_db_password" {
-  value = aws_db_instance.truefoundry_db.password
+  value     = aws_db_instance.truefoundry_db.password
   sensitive = true
 }
 
