@@ -22,6 +22,15 @@ output "truefoundry_db_engine" {
   value = aws_db_instance.truefoundry_db.engine
 }
 
+output "truefoundry_db_username" {
+  value = aws_db_instance.truefoundry_db.username
+}
+
+output "truefoundry_db_password" {
+  value     = aws_db_instance.truefoundry_db.password
+  sensitive = true
+}
+
 output "svcfoundry_bucket_id" {
   value = aws_s3_bucket.svcfoundry_bucket.id
 }
@@ -29,15 +38,11 @@ output "svcfoundry_bucket_id" {
 output "mlfoundry_bucket_id" {
   value = aws_s3_bucket.mlfoundry_bucket.id
 }
-#
-#output "mlfoundry_iam_role_arn" {
-#  value = module.mlfoundry_oidc_iam.iam_role_arn
-#}
-#
-#output "svcfoundry_iam_role_arn" {
-#  value = module.svcfoundry_oidc_iam.iam_role_arn
-#}
-#
-#output "mlmonitoring_iam_role_arn" {
-#  value = module.mlmonitoring_oidc_iam.iam_role_arn
-#}
+
+output "mlfoundry_iam_role_arn" {
+  value = aws_iam_policy.mlfoundry_bucket_policy.arn
+}
+
+output "svcfoundry_iam_role_arn" {
+  value = aws_iam_policy.svcfoundry_bucket_policy.arn
+}
